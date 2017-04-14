@@ -1,0 +1,19 @@
+topic: ~CountSetsTimer()
+language: enu
+concept:(start) [ begin start go]
+concept:(yes) [yes "all right" sure "why not" ok certainly "very well" yep yea definitely amen]
+concept:(no) [no nope "don't want" "no way" never "not at all"]
+concept:(finished) ["{[I'm "I have"]} finished" "I'm done" done finished "all done" "I'm good" "I have done my set" "set complete"]
+
+u:(e:onStart) ^gotoReactivate(count)
+
+proposal: %count ^first["$activeSets==0 Well Done! You have finished all your sets! $onStopped=1" "Alright! ^gotoReactivate(setLeft)"]
+
+proposal: %setLeft \pau=500\ You only have $activeSets sets left to do, are you ready to do another set? 
+    u:(~yes) lets begin  $moreSets=1 
+    u:(~no) Ok let me know what you are ready ^gotoReactivate(wait)
+
+proposal: %noCount Well Done! You've finished all your Sets! $onStopped=1
+    
+proposal: %wait 
+    u:(~start) Okay! Lets Go! $moreSets=1

@@ -1,0 +1,12 @@
+topic: ~DateTime()
+language: enu
+
+concept:(time) [time]
+concept:(date) [date]
+
+^clear(Time)
+^clear(Date)
+
+u:(~time) Time! $Time=1
+
+u:(~date) Date! $Date=1

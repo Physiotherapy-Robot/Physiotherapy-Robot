@@ -1,0 +1,44 @@
+topic: ~Condition()
+language: enu
+
+concept:(repeat) [repeat understand]
+concept:(yes) [yes "all right" sure "why not" ok certainly "very well" yep yea definitely amen]
+concept:(no) [no nope "don't want" "no way" never "not at all"]
+concept:(fracturedAnkle) ["fractured ankle" "broken ankle" "ankle is broken" "ankle is fractured" "fractured his ankle" "fractured her ankle" "broken his ankle" "broken her ankle"]
+concept:(mechanicalBackPain) ["back pain" "sore back" "mechanical back"]
+concept:(kneeReplacement) ["knee replacement" "artificial knee" knee] #currently listening for all knee issues and assuming this means a replacement
+concept:(osteoarthritis) [osteoarthritis arthritis arthritic]
+
+u:(e:onStart)  ^gotoReactivate(askCondition)
+
+proposal:%askCondition What condition does $name have? 
+    u1:(~fracturedAnkle) You said that $name has a fractured ankle $condition=fracturedAnkle ^gotoReactivate(suggestAnkleTreatment)
+    u1:(~mechanicalBackPain) You said that $name has mechanical back pain $condition=mechanicalBackPain ^gotoReactivate(suggestBackPainTreatment)
+    u1:(~kneeReplacement) You said that $name has had knee replacement surgery $condition=kneeReplacement ^gotoReactivate(suggestKneeTreatment)
+    u1:(~osteoarthritis) You said that $name has osteoarthritis of the shoulder $condition=osteoarthritis  ^gotoReactivate(suggestArthritisTreatment)
+
+proposal:%suggestAnkleTreatment To treat a patient with a fracture ankle I would suggest 3 exercises. The first exercise is ankle exercises. The patient should do this exercise 10 times for 3 sets, 3 times a day. The Second exercise is standing calf stretches.  The patient should do this exercise 10 times for 3 sets, 3 times a day, holding for 30 seconds. The third exercise is static lunges. The patient should do this exercise 10 times for 3 sets, 3 times a day. Do you agree with this treatment plan?
+    u1:(~yes) Ok, lets go ahead with that then. $treatment=ankleTreatment $onStopped=1
+    u1:(~no) Ok, would you like to suggest a different treatment plan?
+        u2:(~yes) ok ^clear(blankTreatment)$blankTreatment=1 
+        u2:(~no) ok,we will use my suggestion then $treatment=ankleTreatment
+
+proposal:%suggestBackPainTreatment To treat a patient who has mechanical back pain I would suggest 3 exercises. The first exercise is Lumber knee rolls. The patient should do this exercise 10 times for 3 sets, 3 times a day. The Second exercise bridging. The patient should do this exercise 10 times for 3 sets, 3 times a day. Range of movement. The third exercise is leg raises. The patient should do this exercises 10 times for 3 sets, 3 times a day. Do you agree with this treatment plan?
+    u1:(~yes) Ok, lets go ahead with that then. $treatment=backTreatment $onStopped=1
+    u1:(~no) ok would you like to suggest a different treatment plan?
+        u2:(~yes) ok ^clear(blankTreatment)$blankTreatment=1
+        u2:(~no) ok,we will use my suggestion then $treatment=backTreatment
+        
+proposal:%suggestKneeTreatment To treat a patient who has had knee replacement surgery I would suggest 3 exercises. The first exercise is Bridging. The patient should do this exercise 10 times for 3 sets, 3 times a day. The Second exercise is squats. The patient should do this exercise 10 times for 3 sets, 3 times a day. The third exercise is static lunges. The patient should do this exercise 8 times for 3 sets, 3 times a day. Do you agree with this treatment plan?
+    u1:(~yes) Ok, lets go ahead with that then. $treatment=kneeTreatment $onStopped=1
+    u1:(~no) ok would you like to suggest a different treatment plan?
+        u2:(~yes) ok ^clear(blankTreatment)$blankTreatment=1
+        u2:(~no) ok,we will use my suggestion then $treatment=kneeTreatment
+
+proposal:%suggestArthritisTreatment To treat a patient who has osteoarthritis of the shoulder I would suggest 3 exercises. The first exercise is Supine shoulder flexions. The patient should do this exercise 10 times for 3 sets, 3 times a day. The Second exercise is Supine shoulder external rotation. The patient should do this exercise 10 times for 3 sets, 3 times a day. Do you agree with this treatment plan?
+    u1:(~yes) Ok, lets go ahead with that then. $treatment=arthritisTreatment $onStopped=1
+    u1:(~no) ok would you like to suggest a different treatment plan?
+        u2:(~yes) ok ^clear(blankTreatment)$blankTreatment=1
+        u2:(~no) ok,we will use my suggestion then $treatment=arthritisTreatment
+
+u:(~repeat) let me repeat that for you. ^sameProposal

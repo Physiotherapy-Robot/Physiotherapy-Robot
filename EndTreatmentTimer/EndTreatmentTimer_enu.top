@@ -1,0 +1,18 @@
+topic: ~EndTreatmentTimer()
+language: enu
+concept:(repeat) [repeat understand]
+concept:(yes) [yes "all right" sure "why not" ok certainly "very well" yep yea definitely amen]
+concept:(no) [no nope "don't want" "no way" never "not at all"]
+concept:(start)[ready "I'm ready" begin start go]
+
+u:(e:onStart) Remember this exercise is timed for $activeReps seconds and should be repeated for $activeSets sets
+^gotoReactivate(ExerciseDescription)
+
+proposal: %ExerciseDescription \pau=500\ I will time you, are you ready to begin? 
+    u:(~yes) lets begin  $onStopped=1 
+    u:(~no) Ok let me know what you are ready ^gotoReactivate(WaitingToStart)
+
+proposal: %WaitingToStart
+    u:(~start) $onStopped=1 
+
+u:(~repeat) let me repeat that for you. ^sameProposal

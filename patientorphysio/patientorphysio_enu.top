@@ -1,0 +1,13 @@
+topic: ~patientorphysio()
+language: enu
+concept:(repeat) [repeat understand]
+concept:(practitioner) [physio physiotherapist practitioner]
+concept:(patient) [patient]
+
+u:(e:onStart) Hello my name is Kayla,  ^gotoReactivate(Hello)
+
+proposal: %Hello Are you a Patient or a Practioner? $activeReps=0  $activeSets=0
+    u1:(~practitioner) You have said that you are a practitioner $Physio=1 
+    u1:(~patient) You have said that you are a patient. \pau=700\ let me just get comfortable, while I fetch your details. $Patient=1
+
+u:(~repeat) let me repeat that for you. ^sameProposal

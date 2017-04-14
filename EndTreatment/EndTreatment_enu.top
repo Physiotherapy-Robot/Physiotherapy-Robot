@@ -1,0 +1,19 @@
+topic: ~EndTreatment()
+language: enu
+
+concept:(repeat) [repeat understand]
+concept:(yes) [yes "all right" sure "why not" ok certainly "very well" yep yea definitely amen]
+concept:(no) [no nope "don't want" "no way" never "not at all"]
+concept:(finished) ["{[I'm "I have"]} finished" "I'm done" done finished "all done" "I'm good" "I have done my set" "set complete"]
+
+u:(e:onStart) Remember you need to do this exercise $activeReps times for $activeSets sets
+^gotoReactivate(countOrFinish) 
+
+proposal: %countOrFinish \pau=500\ I can help keep track of you sets or you can let me know when you have finished them all. Would you like me to keep track of your sets?
+    u:(~yes) Alright! You have $activeReps reps to do, let  me know when you are finished! $countSets=1 $onStopped=1
+    u:(~no) Ok! You have $activeSets sets of $activeReps reps left. Let me know when you have finished your sets $countSets=0 $onStopped=1 
+    
+u:(~repeat) let me repeat that for you. ^sameProposal
+
+
+

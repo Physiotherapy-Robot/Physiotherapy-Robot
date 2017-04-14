@@ -1,0 +1,19 @@
+topic: ~BeginTreatment()
+language: enu
+
+concept:(yes) [yes "all right" sure "why not" ok certainly "very well" yep yea definitely amen]
+concept:(no) [no nope "don't want" "no way" never "not at all"]
+concept:(start)[ready "I'm ready" begin start go]
+
+u:(e:onStart) ^gotoReactivate(Ready)
+
+proposal:%Ready Your next exercise is $activeEx , to do this exercise, you need to $activeDesc . Are you ready for me to demonstrate?
+    u:(~yes) lets begin  $onStopped=1 
+    u:(~no) Ok let me know what you are ready ^gotoReactivate(WaitingToStart)
+
+proposal: %WaitingToStart
+u:(~start) $onStopped=1 
+
+u:(stop) But $name , \pau=500\ it's important to complete your treatment plan. \pau=500\  so far youve done $ExerciseNo exercises. \pau=500\ are you sure you want to end your treatment. 
+    u1:(~yes) Ok we can try again later. 
+    u1:(~no) Well done, lets continue ^gotoReactivate(Ready)
